@@ -1,7 +1,7 @@
 apiVersion: azuredevops.krateo.io/v1alpha1
 kind: TeamProject
 metadata:
-  name: "{{ .Values.azureProjectName }}-teamproject"
+  name: "{{ .Values.domainName }}-teamproject"
   namespace: krateo-system
   labels:
     deploymentId: "{{ .Values.deploymentId }}"
