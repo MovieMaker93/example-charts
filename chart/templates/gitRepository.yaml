@@ -1,0 +1,57 @@
+apiVersion: azuredevops.krateo.io/v1alpha1
+kind: ConnectorConfig
+metadata:
+  name: connectorconfig-microservice
+  namespace: krateo-system
+  labels:
+    deploymentId: "{{ .Values.deploymentId }}"
+  annotations:
+    krateo.io/management-policy: observe-create-update
+    krateo.io/connector-verbose: "false"
+spec:
+  apiUrl: https://dev.azure.com 
+  credentials:
+    secretRef:
+      namespace: krateo-system
+      name: azuredevops-endpoint
+      key: token
+---
+apiVersion: azuredevops.krateo.io/v1alpha1
+kind: GitRepository
+metadata:
+  namespace: krateo-system
+  name: "gitrepository-{{.Values.azureProjectName}}"
+  labels:
+    deploymentId: "{{ .Values.deploymentId }}"
+  annotations:
+    krateo.io/management-policy: observe-create-update
+    krateo.io/connector-verbose: "false"
+spec:
+  deletionPolicy: Orphan
+  name: "{{.Values.azureProjectName}}"
+  initialize: true
+  projectRef:
+    name: "{{ .Values.azureProjectName }}-teamproject"
+    namespace: krateo-system
+  connectorConfigRef:
+    name: connectorconfig-microservice
+    namespace: krateo-system
+---
+# apiVersion: krateo.io/v1alpha1
+# kind: Patch
+# metadata:
+#   namespace: krateo-system
+#   name: "{{.Values.microserviceName}}-projectname"
+# spec:
+#   from:
+#     objectReference:
+#       apiVersion: azuredevops.krateo.io/v1alpha1
+#       kind: TeamProject
+#       name: "{{ .Values.azureProjectName }}"
+#     fieldPath: status.projectName
+#   to:
+#     objectReference:
+#       apiVersion: azuredevops.krateo.io/v1alpha1
+#       kind: GitRepository
+#       name: "{{.Values.azureProjectName}}-{{.Values.microserviceName}}"
+#     fieldPath: spec.projectRef.name

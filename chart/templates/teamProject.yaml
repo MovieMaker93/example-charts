@@ -1,0 +1,22 @@
+apiVersion: azuredevops.krateo.io/v1alpha1
+kind: TeamProject
+metadata:
+  name: "{{ .Values.azureProjectName }}-teamproject"
+  namespace: krateo-system
+  labels:
+    deploymentId: "{{ .Values.deploymentId }}"
+  annotations:
+    krateo.io/management-policy: observe
+    krateo.io/connector-verbose: "false"
+spec:
+  name: "{{ .Values.azureProjectName }}"
+  organization: "{{ .Values.organizationName }}"
+  deletionPolicy: Orphan
+  capabilities:
+    versioncontrol:
+      sourceControlType: Git
+    processTemplate:
+      templateTypeId: 6b724908-ef14-45cf-84f8-768b5384da45
+  connectorConfigRef:
+    name: connectorconfig-microservice
+    namespace: krateo-system
