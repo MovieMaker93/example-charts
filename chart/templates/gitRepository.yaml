@@ -28,7 +28,7 @@ metadata:
     krateo.io/connector-verbose: "false"
 spec:
   deletionPolicy: Orphan
-  name: "{{.Values.azureProjectName}}"
+  name: "{{.Values.repositoryName}}"
   initialize: true
   projectRef:
     name: "{{ .Values.domainName }}-teamproject"
