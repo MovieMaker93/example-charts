@@ -3,7 +3,17 @@ entries:
   domain-gitops:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-03-12T10:31:40.351901+01:00"
+    created: "2024-03-12T10:37:47.486452+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 168c9afe03477f99c63589251f6b5994ef37890e07217fa38bd2c178355fe94e
+    name: domain-gitops
+    type: application
+    urls:
+    - https://MovieMaker93.github.io/example-charts/domain-gitops-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-03-12T10:37:47.486084+01:00"
     description: A Helm chart for Kubernetes
     digest: b7094b3340172c97b394d610550c535663ed6cf9575618e4642f08e90e7cebad
     name: domain-gitops
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://MovieMaker93.github.io/example-charts/domain-gitops-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-12T10:31:40.35141+01:00"
+generated: "2024-03-12T10:37:47.481694+01:00"
