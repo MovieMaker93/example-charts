@@ -48,7 +48,7 @@ data:
   json: |
     {
       "organizationName": "{{ .Values.organizationName }}",
-      "projectname": "{{ .Values.azureProjectName }}",
+      "projectName": "{{ .Values.azureProjectName }}",
       "ambiente": "dev"
     }
       
