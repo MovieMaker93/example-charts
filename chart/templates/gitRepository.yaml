@@ -63,7 +63,7 @@ metadata:
 spec:
   deletionPolicy: Orphan
   fromRepo:
-    path: skeleton
+    path: skeleton/gitops
     authMethod: basic
     branch: main
     url: https://DevOpsAlpitourworld@dev.azure.com/DevOpsAlpitourworld/Platform/_git/template-domain-gitops
