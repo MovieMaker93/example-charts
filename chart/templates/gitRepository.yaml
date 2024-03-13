@@ -95,11 +95,13 @@ spec:
       apiVersion: azuredevops.krateo.io/v1alpha1
       kind: GitRepository
       name:  "gitrepository-{{.Values.domainName}}"
+      namespace: krateo-system
     fieldPath: status.remoteUrl
   to:
     objectReference:
       apiVersion: git.krateo.io/v1alpha1
       kind: Repo
       name: "git-gitops-{{ .Values.domainName }}"
-      fieldPath: spec.toRepo.url
+      namespace: krateo-system
+    fieldPath: spec.toRepo.url
 
