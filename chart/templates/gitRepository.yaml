@@ -37,21 +37,69 @@ spec:
     name: connectorconfig-microservice
     namespace: krateo-system
 ---
-# apiVersion: krateo.io/v1alpha1
-# kind: Patch
-# metadata:
-#   namespace: krateo-system
-#   name: "{{.Values.microserviceName}}-projectname"
-# spec:
-#   from:
-#     objectReference:
-#       apiVersion: azuredevops.krateo.io/v1alpha1
-#       kind: TeamProject
-#       name: "{{ .Values.azureProjectName }}"
-#     fieldPath: status.projectName
-#   to:
-#     objectReference:
-#       apiVersion: azuredevops.krateo.io/v1alpha1
-#       kind: GitRepository
-#       name: "{{.Values.azureProjectName}}-{{.Values.microserviceName}}"
-#     fieldPath: spec.projectRef.name
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.domainName }}-configmap-gitops"
+  namespace: krateo-system
+  labels:
+    deploymentId: "{{ .Values.deploymentId }}"
+data:
+  json: |
+    {
+      "organizationName": "{{ .Values.organizationName }}",
+      "projectname": "{{ .Values.azureProjectName }}",
+      "ambiente": "dev"
+    }
+      
+---
+apiVersion: git.krateo.io/v1alpha1
+kind: Repo
+metadata:
+  name: "git-gitops-{{ .Values.domainName }}"
+  namespace: krateo-system
+  labels:
+    deploymentId: "{{ .Values.deploymentId }}"
+spec:
+  deletionPolicy: Orphan
+  fromRepo:
+    path: skeleton
+    authMethod: basic
+    branch: main
+    url: https://DevOpsAlpitourworld@dev.azure.com/DevOpsAlpitourworld/Platform/_git/template-domain-gitops
+    secretRef:
+      namespace: krateo-system
+      name: azuredevops-endpoint
+      key: token
+  toRepo:
+    authMethod: basic
+    branch: main
+    secretRef:
+      namespace: krateo-system
+      name: azuredevops-endpoint
+      key: token
+  configMapKeyRef:
+    namespace: krateo-system
+    key: json
+    name: "{{ .Values.domainName }}-configmap-gitops"
+  unsupportedCapabilities: true
+---
+apiVersion: krateo.io/v1alpha1
+kind: Patch
+metadata:
+  namespace: krateo-system
+  name: "{{.Values.domainName}}-patch"
+spec:
+  from:
+    objectReference:
+      apiVersion: azuredevops.krateo.io/v1alpha1
+      kind: GitRepository
+      name:  "gitrepository-{{.Values.domainName}}"
+    fieldPath: status.remoteUrl
+  to:
+    objectReference:
+      apiVersion: azuredevops.krateo.io/v1alpha1
+      kind: Repo
+      name: "git-gitops-{{ .Values.domainName }}"
+      fieldPath: spec.toRepo.url
+
