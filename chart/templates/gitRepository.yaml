@@ -98,7 +98,7 @@ spec:
     fieldPath: status.remoteUrl
   to:
     objectReference:
-      apiVersion: azuredevops.krateo.io/v1alpha1
+      apiVersion: git.krateo.io/v1alpha1
       kind: Repo
       name: "git-gitops-{{ .Values.domainName }}"
       fieldPath: spec.toRepo.url
